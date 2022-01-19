@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 
 export const EmployeeList = () => {
     const [employees, assignEmployees] = useState([])
+    const [specialties, setSpecialties] = useState([])
+    const history = useHistory() 
 
     useEffect(
         () => {
@@ -16,9 +19,20 @@ export const EmployeeList = () => {
         []
     )
 
+    useEffect(() => {
+        setSpecialties(employees.map(employee => employee.specialty))
+    }, [employees])
+
     return (
         <>
         <h2>Employees</h2>
+        <button onClick={
+            (evt) => {
+                evt.preventDefault()
+                history.push('hireemployee')
+            }
+        }>New Employee</button>
+        <div>Specialties: {specialties.map(specialty => ` ${specialty}`).join()}</div>
         {
             employees.map(
                 (employee) => {
